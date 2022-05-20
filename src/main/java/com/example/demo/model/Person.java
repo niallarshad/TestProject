@@ -1,10 +1,15 @@
 package com.example.demo.model;
 
 public class Person {
+    private String id;
     private String name;
     private int age;
 
-    public Person(String name, int age) {
+    public Person() {
+    }
+
+    public Person(String id, String name, int age) {
+        this.id = id;
         this.name = name;
         this.age = age;
     }
@@ -23,5 +28,13 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
