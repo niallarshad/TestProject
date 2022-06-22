@@ -14,19 +14,19 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping("/api/v1/books")
-    public Book createPerson(@RequestBody Book book) {
+    public Book createBook(@RequestBody Book book) {
         log.info("person {}", book);
         book = bookService.createBook(book);
         return book;
     }
 
     @GetMapping("/api/v1/books")
-    public Book getPerson() {
+    public Book getBook() {
         return bookService.getBook();
     }
 
     @PutMapping("/api/v1/books/{id}")
-    public Book updatePerson(@PathVariable(value = "id") String id,
+    public Book updateBook(@PathVariable(value = "id") String id,
                              @RequestBody Book book) {
         return bookService.updateBook(id, book);
     }
