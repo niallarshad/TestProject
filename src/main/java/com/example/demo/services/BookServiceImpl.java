@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.Constants;
-import com.example.demo.model.Person;
+import com.example.demo.model.Book;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -14,23 +14,23 @@ import java.util.Random;
 
 @Service
 @Slf4j
-public class PersonServiceImpl implements PersonService {
+public class BookServiceImpl implements BookService {
 
     String path = Constants.livePath;
     ObjectMapper om = new ObjectMapper();
 
     @Override
-    public Person createPerson(Person person) {
+    public Book createBook(Book book) {
         String personStr;
         try {
-            personStr = om.writeValueAsString(person);
+            personStr = om.writeValueAsString(book);
             log.info(personStr);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        if (person.getId().isEmpty()) {
+        if (book.getId().isEmpty()) {
             Random rn = new Random();
-            person.setId(Integer.toString(rn.nextInt(100) + 1));
+            book.setId(Integer.toString(rn.nextInt(100) + 1));
         }
 
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
@@ -38,36 +38,36 @@ public class PersonServiceImpl implements PersonService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return person;
+        return book;
     }
 
     @Override
-    public Person getPerson() {
-        Person person;
+    public Book getBook() {
+        Book book;
         try {
-            person = om.readValue(new File(path), Person.class);
+            book = om.readValue(new File(path), Book.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return person;
+        return book;
     }
 
     @Override
-    public Person updatePerson(String id, Person person) {
-        Person oldPerson;
+    public Book updateBook(String id, Book book) {
+        Book oldBook;
         // Fetch person from database
         try {
-            oldPerson = om.readValue(new File(path), Person.class);
+            oldBook = om.readValue(new File(path), Book.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         String personStr;
 
         // if person id is the same as id of person fetched from database then update the person
-        if(oldPerson.getId().equalsIgnoreCase(id)) {
-            person.setId(id);
+        if(oldBook.getId().equalsIgnoreCase(id)) {
+            book.setId(id);
             try {
-                personStr = om.writeValueAsString(person);
+                personStr = om.writeValueAsString(book);
                 log.info(personStr);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
@@ -83,7 +83,7 @@ public class PersonServiceImpl implements PersonService {
                     HttpStatus.NOT_FOUND, "Person not found"
             );
         }
-        return person;
+        return book;
     }
 
     public void setPath(String path) {
